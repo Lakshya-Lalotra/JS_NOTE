@@ -1,26 +1,20 @@
-
+ 
 showNotes();
 
 // If user adds a note, add it to the localStorage
 let addBtn = document.getElementById("addBtn");
-addBtn.addEventListener("click", function (e) {
+addBtn.addEventListener("click", function(e) {
   let addTxt = document.getElementById("addTxt");
-  let addTitle = document.getElementById("addTitle");
   let notes = localStorage.getItem("notes");
   if (notes == null) {
     notesObj = [];
   } else {
     notesObj = JSON.parse(notes);
   }
-  let myObj = {
-    title: addTitle.value,
-    text: addTxt.value
-  }
-  notesObj.push(myObj);
+  notesObj.push(addTxt.value);
   localStorage.setItem("notes", JSON.stringify(notesObj));
   addTxt.value = "";
-  addTitle.value = "";
-  //   console.log(notesObj);
+//   console.log(notesObj);
   showNotes();
 });
 
@@ -33,16 +27,13 @@ function showNotes() {
     notesObj = JSON.parse(notes);
   }
   let html = "";
-  notesObj.forEach(function (element, index, t) {
+  notesObj.forEach(function(element, index) {
     html += `
-    <div class="my-2 mx-2 card-body text-light border-dark bg-dark  mb-3" style=" max-width: 18rem;">
-    <div class="card-body">
-    <h5 class="card-title"">Title </h5>
-
-                        <h5 class="card-title">${element.title}</h5>
-                        <p class="card-text"> ${element.text}</p>
+            <div class="noteCard my-2 mx-2 card  text-light border-dark bg-dark  mb-3 " style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Note ${index + 1}</h5>
+                        <p class="card-text"> ${element}</p>
                         <button id="${index}"onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
-                        <button id = "${index}" onclick= "editNote(this.id)" class = "btn2 btn-primary"> Edit</button>
                     </div>
                 </div>`;
   });
@@ -56,7 +47,6 @@ function showNotes() {
 
 // Function to delete a note
 function deleteNote(index) {
-  //   console.log("I am deleting", index);
 
   let notes = localStorage.getItem("notes");
   if (notes == null) {
@@ -72,21 +62,19 @@ function deleteNote(index) {
 
 
 let search = document.getElementById('searchTxt');
-search.addEventListener("input", function () {
+search.addEventListener("input", function(){
 
-  let inputVal = search.value.toLowerCase();
-  // console.log('Input event fired!', inputVal);
-  let noteCards = document.getElementsByClassName('noteCard');
-  Array.from(noteCards).forEach(function (element) {
-    let cardTxt = element.getElementsByTagName("p")[0].innerText;
-    if (cardTxt.includes(inputVal)) {
-      element.style.display = "block";
-    }
-    else {
-      element.style.display = "none";
-    }
-    // console.log(cardTxt);
-  })
+    let inputVal = search.value.toLowerCase();
+    // console.log('Input event fired!', inputVal);
+    let noteCards = document.getElementsByClassName('noteCard');
+    Array.from(noteCards).forEach(function(element){
+        let cardTxt = element.getElementsByTagName("p")[0].innerText;
+        if(cardTxt.includes(inputVal)){
+            element.style.display = "block";
+        }
+        else{
+            element.style.display = "none";
+        }
+    })
 })
-
 
